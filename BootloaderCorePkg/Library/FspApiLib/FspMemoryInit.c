@@ -67,7 +67,7 @@ CallFspMemoryInit (
                                            FspHeader->FspMemoryInitEntryOffset);
 
   DEBUG ((DEBUG_INFO, "Call FspMemoryInit ... "));
-  if (IS_X64) {
+  if (IS_X64 && !(FspHeader->ComponentAttribute & BIT2)) {
     Status = Execute32BitCode ((UINTN)FspMemoryInit, (UINTN)FspmUpd, (UINTN)HobList, FALSE);
     Status = (UINTN)LShiftU64 (Status & ((UINTN)MAX_INT32 + 1), 32) | (Status & MAX_INT32);
   } else {

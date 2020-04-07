@@ -49,7 +49,7 @@ CallFspSiliconInit (
                                              FspHeader->FspSiliconInitEntryOffset);
 
   DEBUG ((DEBUG_INFO, "Call FspSiliconInit ... \n"));
-  if (IS_X64) {
+  if (IS_X64 && !(FspHeader->ComponentAttribute & BIT2)) {
     Status = Execute32BitCode ((UINTN)FspSiliconInit, (UINTN)FspsUpd, (UINTN)0, FALSE);
     Status = (UINTN)LShiftU64 (Status & ((UINTN)MAX_INT32 + 1), 32) | (Status & MAX_INT32);
   } else {
