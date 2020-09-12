@@ -143,12 +143,16 @@ def BuildFspBins (fsp_dir, sbl_dir, silicon_pkg_name, flag):
     copy_list = []
     if silicon_pkg_name == 'QemuSocPkg':
         copy_list.extend ([
-          ('BuildFsp/QEMU_FSP.bsf',        'Silicon/QemuSocPkg/FspBin/Fsp.bsf'),
+          ('BuildFsp/FspUpd.h',            'Silicon/QemuSocPkg/Include/FspUpd.h'),
+          ('BuildFsp/FsptUpd.h',           'Silicon/QemuSocPkg/Include/FsptUpd.h'),
+          ('BuildFsp/FspmUpd.h',           'Silicon/QemuSocPkg/Include/FspmUpd.h'),
+          ('BuildFsp/FspsUpd.h',           'Silicon/QemuSocPkg/Include/FspsUpd.h'),
+          ('BuildFsp/QEMU_FSP.yaml',       'Silicon/QemuSocPkg/FspBin/Fsp.yaml'),
           ('BuildFsp/QEMU_FSP_DEBUG.fd',   'Silicon/QemuSocPkg/FspBin/FspDbg.bin'),
           ('BuildFsp/QEMU_FSP_RELEASE.fd', 'Silicon/QemuSocPkg/FspBin/FspRel.bin')
         ])
         if flag == '/r':
-          del copy_list[1]
+          del copy_list[-2]
         elif flag == '/d':
           del copy_list[-1]
     else:
@@ -198,7 +202,7 @@ def BuildFspBins (fsp_dir, sbl_dir, silicon_pkg_name, flag):
     with open(os.devnull, 'w') as fnull:
         ret = subprocess.call(cmd.split(' '), cwd=fsp_dir, stdout=fnull, stderr=subprocess.STDOUT)
 
-    patches = ['0001-Build-QEMU-FSP-2.0-binaries.patch', '0002-Enable-QEMU-x64-FSP-build.patch']
+    patches = ['0001-Build-QEMU-FSP-2.0-binaries.patch', '0002-Enable-QEMU-x64-FSP-build.patch', '0003-Switch-to-YAML-for-FSP-UPD.patch']
     for patch in patches:
         cmd = 'git am --keep-cr --whitespace=nowarn %s/%s' % (patch_dir, patch)
         ret = subprocess.call(cmd.split(' '), cwd=fsp_dir)

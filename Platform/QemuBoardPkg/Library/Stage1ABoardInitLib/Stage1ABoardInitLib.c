@@ -27,7 +27,9 @@ FSPT_UPD TempRamInitParams = {
     .CodeRegionBase        = 0xFF000000,
     .CodeRegionLength      = 0x00000000,
   },
-  .UpdTerminator = 0x55AA,
+  .FsptConfig = {
+    .UpdTerminator = 0x55AA,
+  }
 };
 
 /**
