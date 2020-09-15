@@ -202,7 +202,8 @@ def BuildFspBins (fsp_dir, sbl_dir, silicon_pkg_name, flag):
     with open(os.devnull, 'w') as fnull:
         ret = subprocess.call(cmd.split(' '), cwd=fsp_dir, stdout=fnull, stderr=subprocess.STDOUT)
 
-    patches = ['0001-Build-QEMU-FSP-2.0-binaries.patch', '0002-Enable-QEMU-x64-FSP-build.patch', '0003-Switch-to-YAML-for-FSP-UPD.patch']
+    patches = [i for i in os.listdir(patch_dir) if i.endswith('.patch')]
+    patches.sort()
     for patch in patches:
         cmd = 'git am --keep-cr --whitespace=nowarn %s/%s' % (patch_dir, patch)
         ret = subprocess.call(cmd.split(' '), cwd=fsp_dir)
